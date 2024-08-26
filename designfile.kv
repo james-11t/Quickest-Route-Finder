@@ -1,0 +1,193 @@
+WindowManager:
+    VisitorTypeScreen:
+    ExistingVisitorScreen:
+    ExistingRouteScreen:
+    HomeScreen:
+    CameraScreen:
+    StartingPointScreen:
+    DestinationPointScreen:
+    LoadingScreen:
+    MapScreen:
+
+
+<VisitorTypeScreen>:
+    name: "visitorscreen"
+    MDLabel:
+        text: "QEGS ROUTE FINDER"
+        font_size: 30
+        pos_hint: {"x": 0.3,"y": 0.4}
+    MDLabel:
+        text: "Select Visitor Type"
+        font_size: 20
+        pos_hint: {"x": 0.38,"y": 0.2}
+    MDRaisedButton:
+        text: "Existing Visitor"
+        width: 50  
+        md_bg_color: 32/255, 45/255, 115/255, 1
+        pos_hint: {"x": 0.3,"y": 0.45}
+        on_press: app.root.current = "existingvisitor"
+    MDRaisedButton:
+        text: "New Visitor"
+        width: 50  
+        md_bg_color: 7/255,140/255,18/255,1
+        pos_hint: {"x": 0.6,"y": 0.45}
+        on_press: app.root.current = "home"
+    MDRaisedButton:
+        text: "If you've visited the school before, we would recommend 'selecting existing visitor' \n to load your previous routes"
+        md_bg_color: 0,0,0,1
+        pos_hint: {"x": 0.16,"y": 0.18}
+
+
+
+<ExistingVisitorScreen>:
+    name: "existingvisitor"
+
+<ExistingRouteScreen>:
+    name: "existingroutes"
+    MDRectangleFlatButton:
+        id: selectedexistingroute
+        text: "Select One Of Your Existing Routes"
+        font_size: 15
+        text_color: "grey"
+        pos_hint: {"x": 0.3 , "y": 0.5}
+        on_release: 
+            root.drpmenu(self)
+    MDRaisedButton:
+        text: "Confirm"
+        width: 50  
+        md_bg_color: 32/255, 45/255, 115/255, 1
+        pos_hint: {"x": 0.16,"y": 0.2}
+        on_press: 
+            root.existingroute()
+    MDRaisedButton:
+        text: "Select new route"
+        width: 50  
+        md_bg_color: 7/255,140/255,18/255,1
+        pos_hint: {"x": 0.6,"y": 0.2}
+        on_press: 
+            root.newroute()
+    
+
+
+
+    
+<HomeScreen>:
+    name: "home"
+    fname: fname 
+    sname: sname
+    #Here I have created two IDs so that the textinputs can be accessed in the main.py file
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height 
+        #This means the widgets will take up the whole screen 
+        MDLabel:
+            text: "QEGS Route Finder" 
+            #This is the title of the application. Because it is the title, only one column is required for this row, so I have set the columns equal to 1.
+            font_size: 30
+    
+        MDLabel:
+            text: "First Name"
+            font_size: 20
+        MDTextField:
+            id: fname
+            hint_text: "Enter your first name"
+            mode: "fill"
+            multiline: False
+            required: True 
+            #Means that whatever is typed in can only be one line of text
+        MDLabel:
+            text: "Surname"
+            font_size: 20
+        MDTextField:
+            mode: "fill"
+            id: sname
+            hint_text: "Enter your Surname"
+            required: True #Text will go red if nothing has been inputted, indicating that it is a field that needs to be filled in
+        BoxLayout:
+            orientation: "horizontal"
+            size: root.width, root.height
+            spacing: 120
+            padding: 30
+            MDRaisedButton:
+                opacity: 0
+                #I created an invisible button to allow me to adjust the spacing of the 'submit' and 'add another visitor button'.
+             
+            MDRaisedButton:
+                text: "Submit"
+                on_press: root.pressedsubmit()
+                on_release: if fname.text != '' and sname.text != '' and root.isvalid() == True: app.root.current = "camerascreen"
+                #This will link the button to the procedure pressedsubmit() in the main.py file. So, when it is pressed, the procedure will be called.                     
+                width: 50  
+                md_bg_color: 32/255, 45/255, 115/255, 1
+
+            MDRaisedButton:
+                text: "Add another visitor"
+                on_press: root.pressedAV() 
+                #Similarly, when this button is pressed, the procedure pressedAV() will be called
+                md_bg_color: 7/255,140/255,18/255,1
+        
+<CameraScreen>:
+    name: "camerascreen"
+    MDIconButton:
+        icon: "camera"
+        icon_size: "20dp"
+   
+
+
+<StartingPointScreen>:
+    name: "startingscreen"
+
+
+<DestinationPointScreen>:
+    name: "destinationscreen"
+
+<LoadingScreen>:
+    name: "loadingscreen"
+    next: "themap"
+    MDRaisedButton:
+        id: sourceanddestinationpoint
+        pos_hint: {"center_x": 0.5, "y": 0.85}
+        md_bg_color: 32/255, 45/255, 115/255, 1
+
+    MDRaisedButton:
+        id: informationbox
+        pos_hint: {"center_x": 0.5, "y": 0.2}
+        md_bg_color: 25/255, 25/255, 26/255, 1
+      
+
+    MDLabel:
+        text: "Identifying Quickest Route"
+        font_size: 25
+        pos_hint: {"center_x": 0.8, "y": 0.2}
+    MDSpinner:
+        pos_hint: {"center_x": 0.50, "y": 0.4}
+        size_hint: None, None
+        size: dp(75), dp(75)
+        active: True
+
+    MDIconButton:
+        icon: "help-circle"
+        icon_size: "45dp"
+        pos_hint: {"center_x": 0.95, "y": 0.025}
+        on_press: root.show_alert_dialog()
+
+
+<MapScreen>:
+    name: "themap"
+    id: "themap"
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        
+
+
